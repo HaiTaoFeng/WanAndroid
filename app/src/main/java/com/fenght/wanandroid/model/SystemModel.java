@@ -28,8 +28,14 @@ public class SystemModel extends BaseModel implements SystemContract.ISystemMode
     public Call getArticleData(int page,int cid) {
         String url = API.SYSTEM_LABEL_ARTICLE + page + "/json?cid=" + cid;
         LogUtil.e("fht",url);
-        OkHttpClient okHttpClient = OkHttpUtil.okHttpClient;
-        final Request request = OkHttpUtil.getRequst(url);
-        return okHttpClient.newCall(request);
+        return OkHttpUtil.getCall(url);
     }
+
+    @Override
+    public Call getArticleByAuthor(int page,String author) {
+        String url = API.SYSTEM_SEARCH_ARTICLE + page + "/json?author=" + author;
+        LogUtil.e("fht",url);
+        return OkHttpUtil.getCall(url);
+    }
+
 }

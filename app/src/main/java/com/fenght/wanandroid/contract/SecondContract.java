@@ -9,7 +9,6 @@ public interface SecondContract {
     }
 
     interface ISecondView extends IBaseView {
-        void showDailog();
         void showMsg(String msg);
     }
 

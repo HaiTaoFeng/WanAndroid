@@ -12,7 +12,9 @@ public class API {
     public final static String SYSTEM_LABEL = BASE_URL + "tree/json";
     //体系模块下按标签分类的文章
     public final static String SYSTEM_LABEL_ARTICLE = BASE_URL + "article/list/";
-    //体系模块下按标签分类的文章
+    //体系模块下按作者搜索的文章
+    public final static String SYSTEM_SEARCH_ARTICLE = BASE_URL + "article/list/";
+    //导航模块下标签分类
     public final static String NAVIGATION_DATA = BASE_URL + "navi/json";
 
 }

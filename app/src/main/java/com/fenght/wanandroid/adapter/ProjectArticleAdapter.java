@@ -2,28 +2,32 @@ package com.fenght.wanandroid.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.fenght.wanandroid.R;
 import com.fenght.wanandroid.base.BaseRecyclerAdapter;
-import com.fenght.wanandroid.bean.HomeArticleBean;
-import com.fenght.wanandroid.utils.LogUtil;
-import com.fenght.wanandroid.utils.ToastUtil;
+import com.fenght.wanandroid.bean.ProjcetArticleBean;
 import com.fenght.wanandroid.view.ArticleDetailActivity;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HomeArticleAdapter extends BaseRecyclerAdapter<HomeArticleBean.DataBean.DatasBean> {
+public class ProjectArticleAdapter extends BaseRecyclerAdapter<ProjcetArticleBean.DataBean.DatasBean> implements View.OnClickListener {
     private Context context;
-    private List<HomeArticleBean.DataBean.DatasBean> list;
+    private List<ProjcetArticleBean.DataBean.DatasBean> list;
+    private Drawable drawable;
 
-    public HomeArticleAdapter(Context context, List<HomeArticleBean.DataBean.DatasBean> list) {
+    public ProjectArticleAdapter(Context context, List<ProjcetArticleBean.DataBean.DatasBean> list) {
         super(list);
         this.context = context;
         this.list = list;
@@ -31,7 +35,7 @@ public class HomeArticleAdapter extends BaseRecyclerAdapter<HomeArticleBean.Data
 
     //刷新数据
     @Override
-    public void refresh(List<HomeArticleBean.DataBean.DatasBean> mDatas) {
+    public void refresh(List<ProjcetArticleBean.DataBean.DatasBean> mDatas) {
         list = mDatas;
         super.refresh(mDatas);
     }
@@ -54,14 +58,16 @@ public class HomeArticleAdapter extends BaseRecyclerAdapter<HomeArticleBean.Data
 
     @Override
     public RecyclerView.ViewHolder onCreate(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(context).inflate(R.layout.adapter_home_article,parent,false);
+        final View view = LayoutInflater.from(context).inflate(R.layout.adapter_project_article,parent,false);
         ViewHolder viewHolder = null;
         viewHolder = new ViewHolder(view);
+        drawable = context.getDrawable(R.drawable.ic_love);
+        DrawableCompat.setTint(drawable,context.getResources().getColor(R.color.red));
         return viewHolder;
     }
 
     @Override
-    public void onBind(RecyclerView.ViewHolder viewHolder, final int position, HomeArticleBean.DataBean.DatasBean data) {
+    public void onBind(RecyclerView.ViewHolder viewHolder, final int position, ProjcetArticleBean.DataBean.DatasBean data) {
         if (viewHolder instanceof ViewHolder) {
             ViewHolder holder = (ViewHolder)viewHolder;
             holder.tv_title.setText(list.get(position).getTitle());
@@ -70,8 +76,14 @@ public class HomeArticleAdapter extends BaseRecyclerAdapter<HomeArticleBean.Data
             }else{
                 holder.tv_author.setText(list.get(position).getAuthor());
             }
-            holder.tv_type.setText(list.get(position).getSuperChapterName());
+            holder.tv_desc.setText(list.get(position).getDesc());
             holder.tv_time.setText(list.get(position).getNiceDate());
+            String picture_path = list.get(position).getEnvelopePic();
+            if (!"".equals(picture_path)) {
+                //加载图片
+                Glide.with(context).load(picture_path).into(holder.iv_picture);
+            }
+            holder.tv_zan.setBackground(drawable);
             holder.itemView.setTag(position);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -94,17 +106,23 @@ public class HomeArticleAdapter extends BaseRecyclerAdapter<HomeArticleBean.Data
 
     }
 
+    @Override
+    public void onClick(View v) {
+
+    }
 
 
-
-     class ViewHolder extends BaseRecyclerAdapter.Holder {
-        private TextView tv_title,tv_author,tv_type,tv_time;
+    class ViewHolder extends Holder {
+        private TextView tv_title,tv_author,tv_desc,tv_time,tv_zan;
+        private ImageView iv_picture;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_title = itemView.findViewById(R.id.tv_title); //标题
             tv_author = itemView.findViewById(R.id.tv_author); //作者
-            tv_type = itemView.findViewById(R.id.tv_type); //类型
+            tv_desc = itemView.findViewById(R.id.tv_desc); //描述
             tv_time = itemView.findViewById(R.id.tv_time); //时间
+            iv_picture = itemView.findViewById(R.id.iv_picture); //图片
+            tv_zan = itemView.findViewById(R.id.tv_zan); //赞
         }
     }
 

@@ -25,29 +25,6 @@ import okhttp3.Response;
 public class HomeArticlePresenter extends BasePresenter<HomeArticleContract.IHomeArticleView, HomeArticleModel> implements HomeArticleContract.IHomeArticlePresenter{
 
     private static final String TAG ="HomeArticlePresenter" ;
-    private Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(@NonNull Message msg) {
-            dissDialog();
-            switch (msg.what){
-                case 0: //接口调用失败
-                    String s = (String)msg.obj;
-                    getView().errorMsg(s);
-                    break;
-                case 1: //转换文章数据
-                    Gson gson = new Gson();
-                    HomeArticleBean bean = gson.fromJson((String)msg.obj,HomeArticleBean.class);
-                    getView().Succeed(bean);
-                    break;
-                case 2: //Binner数据
-                    Gson gson1 = new Gson();
-                    BinnerBean binnerBean = gson1.fromJson((String)msg.obj,BinnerBean.class);
-                    getView().Succeed(binnerBean);
-                    break;
-            }
-            return false;
-        }
-    });
 
     @Override
     public void handleData(int page) {
@@ -56,19 +33,15 @@ public class HomeArticlePresenter extends BasePresenter<HomeArticleContract.IHom
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Message msg = new Message();
-                msg.obj = e.getMessage();
-                msg.what = 0;
-                handler.sendMessage(msg);
+                pushData(e.getMessage(),0);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String s = response.body().string();
-                Message msg = new Message();
-                msg.obj = s;
-                msg.what = 1;
-                handler.sendMessage(msg);
+                Gson gson = new Gson();
+                HomeArticleBean bean = gson.fromJson(s,HomeArticleBean.class);
+                pushData(bean,1);
             }
         });
     }
@@ -80,19 +53,15 @@ public class HomeArticlePresenter extends BasePresenter<HomeArticleContract.IHom
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Message msg = new Message();
-                msg.obj = e.getMessage();
-                msg.what = 0;
-                handler.sendMessage(msg);
+                pushData(e.getMessage(),0);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String s = response.body().string();
-                Message msg = new Message();
-                msg.obj = s;
-                msg.what = 2;
-                handler.sendMessage(msg);
+                Gson gson = new Gson();
+                BinnerBean bean = gson.fromJson(s,BinnerBean.class);
+                pushData(bean,1);
             }
         });
     }

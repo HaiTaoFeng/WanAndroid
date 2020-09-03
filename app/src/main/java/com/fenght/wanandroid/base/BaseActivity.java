@@ -16,8 +16,10 @@ import java.util.List;
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import me.jessyan.autosize.AutoSize;
+import me.jessyan.autosize.internal.CustomAdapt;
 
-public abstract class BaseActivity extends AppCompatActivity implements IBaseView{
+public abstract class BaseActivity extends AppCompatActivity implements IBaseView,CustomAdapt{
 
     //保存使用注解的presenter，用于解绑
     private List<BasePresenter> mInjectPresenters;
@@ -66,6 +68,12 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        AutoSize.autoConvertDensity(this, 1080, true);
+    }
+
+    @Override
     protected void onDestroy(){
         super.onDestroy();
         for (BasePresenter presenter: mInjectPresenters){
@@ -90,5 +98,15 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     @Override
     public void dissDialog() {
 
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 0;
     }
 }

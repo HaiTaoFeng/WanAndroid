@@ -2,6 +2,7 @@ package com.fenght.wanandroid.utils;
 
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -19,5 +20,9 @@ public class OkHttpUtil {
                 .get()//默认就是GET请求，可以不写
                 .build();
 
+    }
+
+    public static Call getCall(String url){
+        return okHttpClient.newCall(getRequst(url));
     }
 }

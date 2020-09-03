@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 import com.fenght.wanandroid.R;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -37,6 +40,8 @@ public class SystemFragment extends BaseFragment implements SystemContract.ISyst
     private List<SystemLableBean.DataBean> list = new ArrayList<>();
     private List<HomeArticleBean.DataBean.DatasBean> articleList = new ArrayList<>();
 
+    private AppCompatEditText et_author;
+    private AppCompatTextView tv_search;
     private FloatingActionButton fab;
     private RecyclerView rv_title_one,rv_title_two,rv_article;
     private PopupWindow window;
@@ -46,7 +51,6 @@ public class SystemFragment extends BaseFragment implements SystemContract.ISyst
     private HomeArticleAdapter articleAdapter;
 
     private int page = 0; //页数
-    private boolean flag = false; //标志是否第一次加载数据
 
 
     @Override
@@ -56,6 +60,8 @@ public class SystemFragment extends BaseFragment implements SystemContract.ISyst
 
     @Override
     protected void initViews(@Nullable Bundle savedInstanceState) {
+        et_author = $(R.id.et_author); //作者名称
+        tv_search = $(R.id.tv_search); //搜索
         fab = $(R.id.fab); //标签分类
         rv_article = $(R.id.rv_article); //标签下的文章列表
         //设置线性布局
@@ -73,6 +79,20 @@ public class SystemFragment extends BaseFragment implements SystemContract.ISyst
                 // 第一个参数是PopupWindow的父View，第二个参数是PopupWindow相对父View的位置，
                 // 第三和第四个参数分别是PopupWindow相对父View的x、y偏移
                 window.showAtLocation(fab,Gravity.BOTTOM, 0, 0);
+                //设置半透明背景
+                setBackgroundAlpha(0.5f);
+            }
+        });
+
+        tv_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String author = et_author.getText().toString().trim();
+                if ("".equals(author)) {
+                    ToastUtil.toastShort("作者名称不能为空！");
+                    return;
+                }
+                systemPresenter.getArticleByAuthor(page,author);
             }
         });
     }
@@ -108,12 +128,12 @@ public class SystemFragment extends BaseFragment implements SystemContract.ISyst
 
     //适配器加载二级标签数据
     private void setAdapter2(final List<SystemLableBean.DataBean.ChildrenBean> list2){
-        if (list2.size() > 4) {
-            //瀑布流布局:2行、水平分布
-            staggeredGridLayoutManager2 = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.HORIZONTAL);
-        }else{
-            staggeredGridLayoutManager2 = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL);
+        int spanCount = 2;
+        if (list2.size() <= 4) {
+            spanCount = 1;
         }
+        //瀑布流布局:2行、水平分布
+        staggeredGridLayoutManager2 = new StaggeredGridLayoutManager(spanCount,StaggeredGridLayoutManager.HORIZONTAL);
         rv_title_two.setLayoutManager(staggeredGridLayoutManager2);
         if (adapter2 == null) {
             adapter2 = new SystemTitle2Adapter(getActivity(),list2);
@@ -150,36 +170,42 @@ public class SystemFragment extends BaseFragment implements SystemContract.ISyst
         //瀑布流布局:4行、水平分布
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.HORIZONTAL);
         rv_title_one.setLayoutManager(staggeredGridLayoutManager);
-        // 创建PopupWindow对象，其中：
-        // 第一个参数是用于PopupWindow中的View，第二个参数是PopupWindow的宽度，
-        // 第三个参数是PopupWindow的高度，第四个参数指定PopupWindow能否获得焦点
-        window =new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        //设置动画
-        window.setAnimationStyle(R.style.pop_Anim);
-        // 设置PopupWindow的背景
-        window.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-        // 设置PopupWindow是否能响应外部点击事件
-        window.setOutsideTouchable(true);
-        // 设置PopupWindow是否能响应点击事件
-        window.setTouchable(true);
+        window = systemPresenter.getPopupWindow(contentView);
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                setBackgroundAlpha(1.0f);
+            }
+        });
     }
 
-
-    @Override
-    public void lableSucceed(SystemLableBean bean) {
-        list = bean.getData();
-        if (bean.getErrorCode() != 0 && list.size() == 0) {
-            return;
-        }
-        //加载标签适配器
-        setTitleAdapter();
-        if (list.size() > 0) {
-            systemPresenter.getArticleData(page,list.get(0).getChildren().get(0).getId());
-        }
+    /**
+     * 设置背景透明度
+     * @param alpha 透明值0~1。 当值为1时，背景透明
+     */
+    private void setBackgroundAlpha(float alpha){
+        WindowManager.LayoutParams lp=getActivity().getWindow().getAttributes();
+        lp.alpha = alpha;
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getActivity().getWindow().setAttributes(lp);
     }
 
     @Override
-    public <T> void articleSucceed(T t) {
+    public <T> void succeed(T t) {
+        //处理标签数据
+        if (t instanceof SystemLableBean) {
+            SystemLableBean bean = (SystemLableBean)t;
+            list = bean.getData();
+            if (bean.getErrorCode() != 0 && list.size() == 0) {
+                return;
+            }
+            //加载标签适配器
+            setTitleAdapter();
+            if (list.size() > 0) {
+                systemPresenter.getArticleData(page,list.get(0).getChildren().get(0).getId());
+            }
+        }
+        //处理文章数据
         if (t instanceof HomeArticleBean) { //文章类型的数据
             HomeArticleBean bean = (HomeArticleBean)t;
             articleList = bean.getData().getDatas();
@@ -192,7 +218,7 @@ public class SystemFragment extends BaseFragment implements SystemContract.ISyst
     }
 
     @Override
-    public void errorMsg(String s) {
+    public void error(String s) {
         ToastUtil.toastShort(s);
     }
 }

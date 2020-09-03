@@ -1,8 +1,10 @@
 package com.fenght.wanandroid.view;
 
 import android.os.Bundle;
+import android.view.Display;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.fenght.wanandroid.R;
@@ -15,6 +17,8 @@ import com.fenght.wanandroid.fragment.SecondFragment;
 import com.fenght.wanandroid.fragment.SystemFragment;
 import com.fenght.wanandroid.inject.InjectPresenter;
 import com.fenght.wanandroid.presenter.MainPresenter;
+import com.fenght.wanandroid.utils.DisplayUtil;
+import com.fenght.wanandroid.utils.LogUtil;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -57,32 +61,29 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
         titles.add("首页");
         titles.add("体系");
         titles.add("导航");
-        titles.add("问答");
-        titles.add("广场");
         titles.add("项目");
         titles.add("公众号");
-        titles.add("分类");
-        titles.add("工具");
+        titles.add("体系");
+        titles.add("公众号");
+        titles.add("体系");
         fragmentList.add(new HomeArticleFragment());
-        mTl_tabLayout.addTab(mTl_tabLayout.newTab());
-        mTl_tabLayout.getTabAt(0).setText(titles.get(0));
         fragmentList.add(new SystemFragment());
-        mTl_tabLayout.addTab(mTl_tabLayout.newTab());
-        mTl_tabLayout.getTabAt(1).setText(titles.get(1));
         fragmentList.add(new NavigationFragment());
-        mTl_tabLayout.addTab(mTl_tabLayout.newTab());
-        mTl_tabLayout.getTabAt(2).setText(titles.get(2));
-        for (int i = 3;i<titles.size();i++) {
-            fragmentList.add(new SecondFragment(titles.get(i)));
+        fragmentList.add(new SecondFragment());
+        for (int i = 0;i<titles.size();i++) {
             mTl_tabLayout.addTab(mTl_tabLayout.newTab());
             mTl_tabLayout.getTabAt(i).setText(titles.get(i));
+            if (i > 3) {
+                fragmentList.add(new SecondFragment());
+            }
         }
-
+        if (titles.size() <= 6) {
+            mTl_tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        }
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList,titles);
         mVp_viewPager.setAdapter(adapter);
-        mVp_viewPager.setOffscreenPageLimit(0);
+        mVp_viewPager.setOffscreenPageLimit(3);
         mTl_tabLayout.setupWithViewPager(mVp_viewPager);
-
     }
 
     @Override
@@ -113,5 +114,15 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public <T> void succeed(T t) {
+
+    }
+
+    @Override
+    public void error(String s) {
+
     }
 }

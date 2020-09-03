@@ -13,8 +13,7 @@ public interface HomeArticleContract {
     }
 
     interface IHomeArticleView extends IBaseView {
-        <T> void Succeed(T t);
-        void errorMsg(String s);
+
     }
 
     interface IHomeArticlePresenter extends IBasePresenter {

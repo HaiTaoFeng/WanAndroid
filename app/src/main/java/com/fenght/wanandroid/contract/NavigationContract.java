@@ -11,8 +11,7 @@ public interface NavigationContract {
     }
 
     interface INavigationView extends IBaseView {
-        <T> void loadSucceed(T t);
-        void errorMsg(String s);
+
     }
 
     interface INavigationPresenter extends IBasePresenter {

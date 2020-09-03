@@ -38,6 +38,7 @@ public class HomeArticleFragment extends BaseFragment implements HomeArticleCont
     @InjectPresenter
     private HomeArticlePresenter presenter;
     private SmartRefreshLayout srl_refreshLayout;
+    private ImageView iv_loading;
     private RecyclerView rv_home_article;
     private HomeArticleAdapter adapter;
     private View viewPager;
@@ -53,7 +54,6 @@ public class HomeArticleFragment extends BaseFragment implements HomeArticleCont
         @Override
         public boolean handleMessage(@NonNull Message msg) {
             vp_binner.setCurrentItem((vp_binner.getCurrentItem() + 1) % beanArrayList.size(),true);
-            LogUtil.e("进入轮播Handler");
             return false;
         }
     });
@@ -69,8 +69,9 @@ public class HomeArticleFragment extends BaseFragment implements HomeArticleCont
         viewPager = LayoutInflater.from(getContext()).inflate(R.layout.adapter_article_head,null,false);
         vp_binner = viewPager.findViewById(R.id.vp_binner);
 
-        srl_refreshLayout = $(R.id.srl_refreshLayout);
-        rv_home_article = $(R.id.rv_home_article);
+        srl_refreshLayout = $(R.id.srl_refreshLayout); //下拉刷新布局
+        iv_loading = $(R.id.iv_loading); //刷新动画
+        rv_home_article = $(R.id.rv_home_article); //文章列表
 
         srl_refreshLayout.setEnableRefresh(true);
         srl_refreshLayout.setEnableLoadMore(true);
@@ -82,13 +83,15 @@ public class HomeArticleFragment extends BaseFragment implements HomeArticleCont
         mLayoutManager.setOrientation(RecyclerView.VERTICAL);
         //给RecyclerView设置布局管理器
         rv_home_article.setLayoutManager(mLayoutManager);
+        //加载动态图片
+        Glide.with(getContext()).load(R.mipmap.loading).into(iv_loading);
         srl_refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 page = 0;
                 presenter.handleData(page);
                 list.clear();
-                refreshLayout.finishRefresh(true);
+                refreshLayout.finishRefresh(2000);
             }
         });
 
@@ -96,7 +99,7 @@ public class HomeArticleFragment extends BaseFragment implements HomeArticleCont
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 presenter.handleData(page);
-                refreshLayout.finishLoadMore(true);
+                refreshLayout.finishLoadMore(2000);
             }
         });
     }
@@ -123,9 +126,8 @@ public class HomeArticleFragment extends BaseFragment implements HomeArticleCont
         }
     }
 
-
     @Override
-    public <T> void Succeed(T t) {
+    public <T> void succeed(T t) {
         if (t instanceof HomeArticleBean) {
             HomeArticleBean homeArticleBean = (HomeArticleBean) t;
             page += 1;
@@ -136,6 +138,7 @@ public class HomeArticleFragment extends BaseFragment implements HomeArticleCont
             }
             setAdapter();
         }
+
         if (t instanceof BinnerBean) {
             BinnerBean binnerBean = (BinnerBean) t;
             //获取binner数据
@@ -151,11 +154,10 @@ public class HomeArticleFragment extends BaseFragment implements HomeArticleCont
             //开始轮播binner
             viewPagerThread.start();
         }
-
     }
 
     @Override
-    public void errorMsg(String s) {
+    public void error(String s) {
         ToastUtil.toastShort(s);
     }
 

@@ -40,15 +40,15 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
-    //卡顿监控
-    implementation "com.github.markzhai:blockcanary-android:$blockcanary_version"
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"  //recycleview
+    implementation "com.github.markzhai:blockcanary-android:$blockcanary_version"     //卡顿监控
     // 注意：分包之后不会有默认的Header和Footer需要手动添加！(下拉刷新)
     implementation 'com.scwang.smart:refresh-layout-kernel:2.0.0-alpha-1' //核心必须依赖
     implementation 'com.scwang.smart:refresh-header-radar:2.0.0-alpha-1' //雷达刷新头
-    //图片加载
-    implementation "com.github.bumptech.glide:glide:$glide_version"
+
+    implementation "com.github.bumptech.glide:glide:$glide_version" //图片加载
     implementation "com.squareup.okhttp3:okhttp:4.8.1" //网络请求
     implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'me.jessyan:autosize:1.1.2' //AutoSize今日头条屏幕适配
 
 }

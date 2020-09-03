@@ -1,8 +1,14 @@
 package com.fenght.wanandroid.base;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
+import com.fenght.wanandroid.bean.BinnerBean;
+import com.fenght.wanandroid.bean.HomeArticleBean;
+import com.fenght.wanandroid.bean.SystemLableBean;
 import com.fenght.wanandroid.weight.ProgressDialog;
+import com.google.gson.Gson;
 
 import java.lang.ref.SoftReference;
 import java.lang.reflect.InvocationHandler;
@@ -11,10 +17,29 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 
+import androidx.annotation.NonNull;
+
 public class BasePresenter<V extends IBaseView, M extends BaseModel> implements IBasePresenter{
     private SoftReference<IBaseView> mReferenceView;
     private V mProxyView;
     private M mModel;
+
+    private Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+            dissDialog();
+            switch (msg.what){
+                case 0: //接口调用失败
+                    String s = (String)msg.obj;
+                    getView().error(s);
+                    break;
+                case 1: //转换文章数据
+                    getView().succeed(msg.obj);
+                    break;
+            }
+            return false;
+        }
+    });
 
     public V getView(){
         return mProxyView;
@@ -60,9 +85,26 @@ public class BasePresenter<V extends IBaseView, M extends BaseModel> implements 
         ProgressDialog.cancleDialog();
     }
 
+    /**
+     * 通过Handler处理数据
+     * @param obj 数据
+     * @param what 标记，0为失败，1为成功
+     * @param <T>
+     */
+    public <T> void pushData (T obj, int what){
+        Message msg = new Message();
+        msg.obj = obj;
+        msg.what = what;
+        handler.sendMessage(msg);
+    }
+
     @Override
     public void detach() {
         mReferenceView.clear();
         mReferenceView = null;
+        if (handler != null) {
+            handler = null;
+        }
     }
+
 }

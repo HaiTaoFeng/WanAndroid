@@ -47,37 +47,28 @@ public class NavigationFragment extends BaseFragment implements NavigationContra
         }
     }
 
-    //处理数据，将数据展平
-    private void dealData(List<NavigationBean.DataBean> list){
-        articlesBeanList = new ArrayList<>();
-        for (int i = 0;i < list.size();i++) {
-            NavigationBean.DataBean.ArticlesBean articlesBean = new NavigationBean.DataBean.ArticlesBean();
-            articlesBean.setChapterName(list.get(i).getArticles().get(0).getChapterName());
-            articlesBeanList.add(articlesBean);
-            articlesBeanList.addAll(list.get(i).getArticles());
+    @Override
+    public <T> void succeed(T t) {
+        if (t instanceof NavigationBean) {
+            NavigationBean bean = (NavigationBean)t;
+            articlesBeanList = navigationPresenter.dealData(bean.getData());
+            adapter = new NavigationAdapter(getContext(),articlesBeanList);
+            //瀑布流布局:4行、水平分布
+            gridLayoutManager = new GridLayoutManager(getContext(),3);
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    //标题占据三列，该值必须小于上面设置的spanCount数值
+                    return adapter.isTitle(position) ? gridLayoutManager.getSpanCount() : 1;
+                }
+            });
+            rv_recyclerView.setLayoutManager(gridLayoutManager);
+            rv_recyclerView.setAdapter(adapter);
         }
     }
 
     @Override
-    public <T> void loadSucceed(T t) {
-        NavigationBean bean = (NavigationBean)t;
-        dealData(bean.getData());
-        adapter = new NavigationAdapter(getContext(),articlesBeanList);
-        //瀑布流布局:4行、水平分布
-        gridLayoutManager = new GridLayoutManager(getContext(),3);
-        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                //标题占据三列，该值必须小于上面设置的spanCount数值
-                return adapter.isTitle(position) ? gridLayoutManager.getSpanCount() : 1;
-            }
-        });
-        rv_recyclerView.setLayoutManager(gridLayoutManager);
-        rv_recyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public void errorMsg(String s) {
+    public void error(String s) {
         ToastUtil.toastShort(s);
     }
 }

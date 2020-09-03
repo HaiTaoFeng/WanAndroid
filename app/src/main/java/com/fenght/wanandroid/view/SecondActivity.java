@@ -14,7 +14,7 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment,new SecondFragment("无关紧要")).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment,new SecondFragment()).commit();
 
     }
 }
