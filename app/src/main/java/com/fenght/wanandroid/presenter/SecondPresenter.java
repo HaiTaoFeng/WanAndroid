@@ -2,6 +2,7 @@ package com.fenght.wanandroid.presenter;
 
 import com.fenght.wanandroid.base.BasePresenter;
 import com.fenght.wanandroid.bean.ProjcetArticleBean;
+import com.fenght.wanandroid.bean.ProjectSortBean;
 import com.fenght.wanandroid.contract.SecondContract;
 import com.fenght.wanandroid.model.SecondModel;
 import com.fenght.wanandroid.utils.AssetsUtil;
@@ -12,9 +13,9 @@ public class SecondPresenter extends BasePresenter<SecondContract.ISecondView, S
     @Override
     public void handleData() {
         showDialog();
-        String a = AssetsUtil.getAssetsFile(getView().getContext(),"a.json");
+        String a = AssetsUtil.getAssetsFile(getView().getContext(),"project_sort.json");
         Gson gson = new Gson();
-        ProjcetArticleBean bean = gson.fromJson(a,ProjcetArticleBean.class);
+        ProjectSortBean bean = gson.fromJson(a,ProjectSortBean.class);
         pushData(bean,1);
     }
 

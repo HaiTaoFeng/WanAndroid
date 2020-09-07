@@ -7,58 +7,78 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.fenght.wanandroid.R;
 import com.fenght.wanandroid.adapter.CommonRAdapter;
-import com.fenght.wanandroid.adapter.ProjectSortAdapter;
-import com.fenght.wanandroid.adapter.ViewPagerAdapter;
+import com.fenght.wanandroid.adapter.ProjectArticleAdapter;
 import com.fenght.wanandroid.base.BaseFragment;
 import com.fenght.wanandroid.bean.ProjcetArticleBean;
-import com.fenght.wanandroid.bean.ProjectSortBean;
+import com.fenght.wanandroid.contract.ProjectArticleContract;
 import com.fenght.wanandroid.contract.SecondContract;
 import com.fenght.wanandroid.inject.InjectPresenter;
+import com.fenght.wanandroid.presenter.ProjectArticlePresenter;
 import com.fenght.wanandroid.presenter.SecondPresenter;
 import com.fenght.wanandroid.utils.ToastUtil;
 import com.fenght.wanandroid.weight.PopupDialog;
-import com.fenght.wanandroid.weight.VerticalViewPager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-public class SecondFragment extends BaseFragment implements SecondContract.ISecondView {
+public class ProjectArticleFragment extends BaseFragment implements ProjectArticleContract.IProjectArticleView {
     @InjectPresenter
-    private SecondPresenter mSecondPresenter;
+    private ProjectArticlePresenter articlePresenter;
 
     private RecyclerView rv_recyclerView;
-    private VerticalViewPager vp_viewPager;
-    private ProjectSortAdapter adapter;
+    private ProjectArticleAdapter adapter;
     private FloatingActionButton fab;
 
-    private List<Fragment> fragmentList = new ArrayList<>();
-    private List<String> titleList = new ArrayList<>();
     private boolean sIsScrolling = false;
+    private String title;
 
-    private List<ProjectSortBean.DataBean> sortList = new ArrayList<>();
+    private List<ProjcetArticleBean.DataBean.DatasBean> projectList = new ArrayList<>();
 
+    public ProjectArticleFragment(String title) {
+        this.title = title;
+    }
 
     @Override
     protected int setLayout() {
-        return R.layout.fragment_second;
+        return R.layout.fragment_project_article;
     }
 
     @Override
     protected void initViews(@Nullable Bundle savedInstanceState) {
         fab = $(R.id.fab);
         rv_recyclerView = $(R.id.rv_recyclerView);
-        vp_viewPager = $(R.id.vp_viewPager);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
         rv_recyclerView.setLayoutManager(manager);
+
+        //设置滑动监听
+        rv_recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING || newState == RecyclerView.SCROLL_STATE_SETTLING) {
+                    sIsScrolling = true;
+                    Glide.with(getActivity()).pauseRequests();
+                } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (sIsScrolling == true) {
+                        Glide.with(getActivity()).resumeRequests();
+                    }
+                    sIsScrolling = false;
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,29 +111,17 @@ public class SecondFragment extends BaseFragment implements SecondContract.ISeco
 
     @Override
     protected void initData() {
-        mSecondPresenter.handleData();
+        articlePresenter.getData();
     }
 
-    @Override
-    public void showMsg(String msg) {
-
-    }
 
 
     @Override
     public <T> void succeed(T t) {
-        if(t instanceof ProjectSortBean){
-            ProjectSortBean projectSortBean = (ProjectSortBean)t;
-            sortList = projectSortBean.getData();
-            setProjectSortAdapter();
-            for (int i=1;i<sortList.size();i++) {
-                fragmentList.add(new ProjectArticleFragment(sortList.get(i).getName()));
-                titleList.add(sortList.get(i).getName());
-            }
-            fragmentList.add(new ViewPagerFragment());
-            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(),fragmentList,titleList);
-            vp_viewPager.setAdapter(viewPagerAdapter);
-            vp_viewPager.setOffscreenPageLimit(1);
+        if(t instanceof ProjcetArticleBean){
+            ProjcetArticleBean projcetArticleBean = (ProjcetArticleBean)t;
+            projectList = projcetArticleBean.getData().getDatas();
+            setProjectArticleAdapter();
         }
     }
 
@@ -123,18 +131,12 @@ public class SecondFragment extends BaseFragment implements SecondContract.ISeco
     }
 
     //加载项目文章
-    private void setProjectSortAdapter(){
+    private void setProjectArticleAdapter(){
         if (adapter == null) {
-            adapter = new ProjectSortAdapter(getContext(),sortList,R.layout.adapter_popup_dialog);
+            adapter = new ProjectArticleAdapter(getContext(),projectList);
             rv_recyclerView.setAdapter(adapter);
-            adapter.setOnItemClick(new ProjectSortAdapter.OnItemClick() {
-                @Override
-                public void setOnItemClick(int postion) {
-                    vp_viewPager.setCurrentItem(postion,true);
-                }
-            });
         }else{
-            adapter.refresh(sortList);
+            adapter.refresh(projectList);
         }
     }
 }

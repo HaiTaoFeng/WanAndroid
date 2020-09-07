@@ -31,7 +31,7 @@ public class NavigationFragment extends BaseFragment implements NavigationContra
 
     @Override
     protected int setLayout() {
-        return R.layout.fragment_second;
+        return R.layout.fragment_navigation;
     }
 
     @Override

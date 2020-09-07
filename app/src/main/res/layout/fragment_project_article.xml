@@ -7,22 +7,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_recyclerView"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:background="@color/gray_cc"
-        app:layout_constraintWidth_percent="5"
-        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.fenght.wanandroid.weight.VerticalViewPager
-        android:id="@+id/vp_viewPager"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rv_recyclerView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

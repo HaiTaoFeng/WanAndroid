@@ -86,6 +86,10 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
         }
     }
 
+    public View getView(){
+        return view;
+    }
+
     @Override
     public void showDialog(String s) {
         ProgressDialog.showDialog(getContext());

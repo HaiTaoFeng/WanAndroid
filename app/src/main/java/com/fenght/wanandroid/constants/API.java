@@ -16,5 +16,9 @@ public class API {
     public final static String SYSTEM_SEARCH_ARTICLE = BASE_URL + "article/list/";
     //导航模块下标签分类
     public final static String NAVIGATION_DATA = BASE_URL + "navi/json";
+    //项目模块下的类别
+    public final static String PROJECT_SORT = BASE_URL + "project/tree/json";
+    //项目模块下的分类项目(https://www.wanandroid.com/project/list/1/json?cid=294)
+    public final static String PROJECT_LIST = BASE_URL + "project/list/";
 
 }

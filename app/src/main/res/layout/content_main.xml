@@ -7,26 +7,41 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_main">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tl_tabLayout"
+    <LinearLayout
+        android:id="@+id/ll_linearlayout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        style="@style/tabLayoutstyle"
-        app:tabMode="scrollable"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_more"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tl_tabLayout"
+            style="@style/tabLayoutstyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:tabMode="scrollable" />
+    </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="62dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tl_tabLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/ll_linearlayout" />
 
     <!--    <fragment-->
 <!--        android:id="@+id/nav_host_fragment"-->

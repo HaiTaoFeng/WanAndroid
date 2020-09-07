@@ -47,10 +47,11 @@ public abstract class CommonRAdapter<T> extends RecyclerView.Adapter<CommonRAdap
 
     @Override
     public void onBindViewHolder(CommonRAdapter.CommonViewHolder holder, int position) {
-        convert(holder, mList.get(position));
+        holder.itemView.setTag(position);
+        convert(holder, mList.get(position),position);
     }
 
-    public abstract void convert(CommonViewHolder holder, T itemData);
+    public abstract void convert(CommonViewHolder holder, T itemData,int postion);
 
     @Override
     public int getItemCount() {
@@ -58,15 +59,14 @@ public abstract class CommonRAdapter<T> extends RecyclerView.Adapter<CommonRAdap
     }
 
     //刷新列表
-    public void refresh(){
+    public void refresh(List<T> mList){
+        this.mList = mList;
         notifyDataSetChanged();
     }
 
-    public void re(){
-    }
 
-    public interface OnItemClickListener {
-        void itemClick();
+    public  interface OnItemClickListener {
+        void itemClick(int postion);
     }
 
     public interface OnLongClickListener {
@@ -89,14 +89,14 @@ public abstract class CommonRAdapter<T> extends RecyclerView.Adapter<CommonRAdap
 
         private SparseArray<View> mSparseArray;
 
-        public CommonViewHolder(View itemView, Context context) {
+        public CommonViewHolder(final View itemView, Context context) {
             super(itemView);
             mSparseArray = new SparseArray<>();
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mItemClickListener != null) {
-                        mItemClickListener.itemClick();
+                        mItemClickListener.itemClick((int)itemView.getTag());
                     }
                 }
             });
@@ -121,7 +121,7 @@ public abstract class CommonRAdapter<T> extends RecyclerView.Adapter<CommonRAdap
         }
 
 
-        private <T extends View> T getView(int viewId) {
+        public  <T extends View> T getView(int viewId) {
             View view = mSparseArray.get(viewId);
             if (view == null) {
                 view = itemView.findViewById(viewId);

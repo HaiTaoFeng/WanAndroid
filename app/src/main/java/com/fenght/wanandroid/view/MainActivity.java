@@ -1,10 +1,8 @@
 package com.fenght.wanandroid.view;
 
 import android.os.Bundle;
-import android.view.Display;
 import android.view.Menu;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.fenght.wanandroid.R;
@@ -17,8 +15,6 @@ import com.fenght.wanandroid.fragment.SecondFragment;
 import com.fenght.wanandroid.fragment.SystemFragment;
 import com.fenght.wanandroid.inject.InjectPresenter;
 import com.fenght.wanandroid.presenter.MainPresenter;
-import com.fenght.wanandroid.utils.DisplayUtil;
-import com.fenght.wanandroid.utils.LogUtil;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -26,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -50,8 +45,8 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
 
     @Override
     protected void initViews() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         mTl_tabLayout = $(R.id.tl_tabLayout);
         mVp_viewPager = $(R.id.vp_viewPager);
