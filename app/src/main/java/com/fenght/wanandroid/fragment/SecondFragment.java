@@ -1,24 +1,17 @@
 package com.fenght.wanandroid.fragment;
 
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.fenght.wanandroid.R;
-import com.fenght.wanandroid.adapter.CommonRAdapter;
 import com.fenght.wanandroid.adapter.ProjectSortAdapter;
 import com.fenght.wanandroid.adapter.ViewPagerAdapter;
 import com.fenght.wanandroid.base.BaseFragment;
-import com.fenght.wanandroid.bean.ProjcetArticleBean;
 import com.fenght.wanandroid.bean.ProjectSortBean;
 import com.fenght.wanandroid.contract.SecondContract;
 import com.fenght.wanandroid.inject.InjectPresenter;
 import com.fenght.wanandroid.presenter.SecondPresenter;
 import com.fenght.wanandroid.utils.ToastUtil;
-import com.fenght.wanandroid.weight.PopupDialog;
+import com.fenght.wanandroid.weight.PagerRecycleView;
 import com.fenght.wanandroid.weight.VerticalViewPager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -35,7 +28,7 @@ public class SecondFragment extends BaseFragment implements SecondContract.ISeco
     @InjectPresenter
     private SecondPresenter mSecondPresenter;
 
-    private RecyclerView rv_recyclerView;
+    private PagerRecycleView rv_recyclerView;
     private VerticalViewPager vp_viewPager;
     private ProjectSortAdapter adapter;
     private FloatingActionButton fab;
@@ -59,32 +52,20 @@ public class SecondFragment extends BaseFragment implements SecondContract.ISeco
         vp_viewPager = $(R.id.vp_viewPager);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
         rv_recyclerView.setLayoutManager(manager);
-
-        fab.setOnClickListener(new View.OnClickListener() {
+        vp_viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onClick(View v) {
-                View view = LayoutInflater.from(getContext()).inflate(R.layout.popuwindow_default_list,null);
-                RecyclerView rv_list = view.findViewById(R.id.rv_list);
-                rv_list.setLayoutManager(new LinearLayoutManager(getContext()));
-                final List<String> list = new ArrayList<>();
-                list.add("条目1");
-                list.add("条目2");
-                list.add("条目3");
-                list.add("条目4");
-                list.add("条目5");
-                list.add("条目6");
-//                ProjectSortAdapter adapter = new ProjectSortAdapter(getContext(),list,R.layout.adapter_popup_dialog);
-//                rv_list.setAdapter(adapter);
-                final PopupDialog popupDialog = new PopupDialog(getContext(),list);
-                popupDialog.setWidthHeight(200,ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupDialog.setAdapterListener(new CommonRAdapter.OnItemClickListener() {
-                    @Override
-                    public void itemClick(int postion) {
-                        Toast.makeText(getActivity(),"点击" + list.get(postion),Toast.LENGTH_LONG).show();
-                        popupDialog.dismiss();
-                    }
-                });
-                popupDialog.showPopupDialog(fab, Gravity.LEFT);
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                adapter.refreshItem(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
     }
@@ -106,8 +87,8 @@ public class SecondFragment extends BaseFragment implements SecondContract.ISeco
             ProjectSortBean projectSortBean = (ProjectSortBean)t;
             sortList = projectSortBean.getData();
             setProjectSortAdapter();
-            for (int i=1;i<sortList.size();i++) {
-                fragmentList.add(new ProjectArticleFragment(sortList.get(i).getName()));
+            for (int i=0;i<sortList.size();i++) {
+                fragmentList.add(new ProjectArticleFragment(sortList.get(i).getName(), sortList.get(i).getId()));
                 titleList.add(sortList.get(i).getName());
             }
             fragmentList.add(new ViewPagerFragment());
@@ -122,7 +103,7 @@ public class SecondFragment extends BaseFragment implements SecondContract.ISeco
         ToastUtil.toastShort(s);
     }
 
-    //加载项目文章
+    //加载项目文章标签
     private void setProjectSortAdapter(){
         if (adapter == null) {
             adapter = new ProjectSortAdapter(getContext(),sortList,R.layout.adapter_popup_dialog);

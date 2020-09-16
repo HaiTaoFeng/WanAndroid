@@ -26,15 +26,17 @@ public class ProjectSortAdapter extends CommonRAdapter<ProjectSortBean.DataBean>
         holder.setText(R.id.tv_textview,itemData.getName());
         final TextView textView = holder.getView(R.id.tv_textview);
         if (flag == postion) {
-            textView.setBackgroundColor(context.getResources().getColor(R.color.gray_cc));
+            textView.setTextColor(context.getResources().getColor(R.color.red));
+        }else{
+            textView.setTextColor(context.getResources().getColor(R.color.black));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemClick != null) {
                     flag = postion;
-                    textView.setBackgroundColor(context.getResources().getColor(R.color.white));
                     onItemClick.setOnItemClick(postion);
+                    notifyDataSetChanged();
                 }
             }
         });
@@ -44,6 +46,17 @@ public class ProjectSortAdapter extends CommonRAdapter<ProjectSortBean.DataBean>
     public void refresh(List<ProjectSortBean.DataBean> list) {
         super.refresh(list);
     }
+
+    /**
+     * 改变该栏底色，变为选中状态
+     * @param pos  选中位置
+     */
+    public void refreshItem(int pos) {
+        flag = pos;
+        notifyDataSetChanged(); //刷新list
+    }
+
+
 
     public void setOnItemClick(OnItemClick onItemClick) {
         this.onItemClick = onItemClick;

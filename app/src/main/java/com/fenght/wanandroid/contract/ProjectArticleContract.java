@@ -7,7 +7,7 @@ import okhttp3.Call;
 
 public interface ProjectArticleContract {
     interface IProjectArticleModel {
-        Call getData();
+        Call getData(int page,int cid);
     }
 
     interface IProjectArticleView extends IBaseView {
@@ -15,6 +15,6 @@ public interface ProjectArticleContract {
     }
 
     interface IProjectArticlePresenter extends IBasePresenter {
-        void getData(); //获取数据
+        void getData(int page,int cid); //获取数据
     }
 }

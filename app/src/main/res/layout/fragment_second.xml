@@ -5,12 +5,11 @@
     android:layout_height="match_parent">
 
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.fenght.wanandroid.weight.PagerRecycleView
         android:id="@+id/rv_recyclerView"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
-        android:background="@color/gray_cc"
         app:layout_constraintWidth_percent="5"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,16 +24,5 @@
         app:layout_constraintStart_toEndOf="@+id/rv_recyclerView"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.915"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.938"
-        android:src="@drawable/icon_type"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

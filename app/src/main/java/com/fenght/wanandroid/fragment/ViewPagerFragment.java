@@ -47,7 +47,7 @@ public class ViewPagerFragment extends BaseFragment implements ProjectArticleCon
 
     @Override
     protected void initData() {
-        articlePresenter.getData();
+        articlePresenter.getData(0,120);
     }
 
 

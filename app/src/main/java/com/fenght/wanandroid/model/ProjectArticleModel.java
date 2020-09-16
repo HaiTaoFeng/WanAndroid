@@ -16,8 +16,8 @@ public class ProjectArticleModel extends BaseModel implements ProjectArticleCont
     private static final String TAG = "ProjectArticleModel";
 
     @Override
-    public Call getData() {
-        String url = API.NAVIGATION_DATA;
+    public Call getData(int page, int cid) {
+        String url = API.PROJECT_LIST + page + "/json?cid=" + cid;
         LogUtil.e("fht",url);
         OkHttpClient okHttpClient = OkHttpUtil.okHttpClient;
         final Request request = OkHttpUtil.getRequst(url);

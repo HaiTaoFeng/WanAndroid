@@ -5,6 +5,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -34,16 +35,20 @@ public class ProjectArticleFragment extends BaseFragment implements ProjectArtic
     private ProjectArticlePresenter articlePresenter;
 
     private RecyclerView rv_recyclerView;
+    private TextView tv_title;
     private ProjectArticleAdapter adapter;
     private FloatingActionButton fab;
 
     private boolean sIsScrolling = false;
     private String title;
+    private int page = 0;
+    private int cid;
 
     private List<ProjcetArticleBean.DataBean.DatasBean> projectList = new ArrayList<>();
 
-    public ProjectArticleFragment(String title) {
+    public ProjectArticleFragment(String title, int cid) {
         this.title = title;
+        this.cid = cid;
     }
 
     @Override
@@ -54,6 +59,8 @@ public class ProjectArticleFragment extends BaseFragment implements ProjectArtic
     @Override
     protected void initViews(@Nullable Bundle savedInstanceState) {
         fab = $(R.id.fab);
+        tv_title = $(R.id.tv_title);
+        tv_title.setText(title);
         rv_recyclerView = $(R.id.rv_recyclerView);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
         rv_recyclerView.setLayoutManager(manager);
@@ -111,7 +118,9 @@ public class ProjectArticleFragment extends BaseFragment implements ProjectArtic
 
     @Override
     protected void initData() {
-        articlePresenter.getData();
+        if (projectList.isEmpty()) {
+            articlePresenter.getData(page,cid);
+        }
     }
 
 
