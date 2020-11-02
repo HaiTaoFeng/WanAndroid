@@ -9,7 +9,7 @@ import com.fenght.wanandroid.base.BaseFragment;
 import com.fenght.wanandroid.bean.ProjectSortBean;
 import com.fenght.wanandroid.contract.SecondContract;
 import com.fenght.wanandroid.inject.InjectPresenter;
-import com.fenght.wanandroid.presenter.SecondPresenter;
+import com.fenght.wanandroid.mvp.presenter.SecondPresenter;
 import com.fenght.wanandroid.utils.ToastUtil;
 import com.fenght.wanandroid.weight.PagerRecycleView;
 import com.fenght.wanandroid.weight.VerticalViewPager;

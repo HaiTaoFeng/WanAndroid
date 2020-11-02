@@ -1,13 +1,11 @@
-package com.fenght.wanandroid.model;
+package com.fenght.wanandroid.mvp.model;
 
 import com.fenght.wanandroid.base.BaseModel;
-import com.fenght.wanandroid.contract.MainContract;
+import com.fenght.wanandroid.contract.SecondContract;
 
-public class MainModel extends BaseModel implements MainContract.IMainModel {
-
-
+public class SecondModel extends BaseModel implements SecondContract.ISecondModel {
     @Override
-    public void requestData() {
+    public String requestData() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -18,5 +16,6 @@ public class MainModel extends BaseModel implements MainContract.IMainModel {
                 }
             }
         }).start();
+        return "请求失败";
     }
 }

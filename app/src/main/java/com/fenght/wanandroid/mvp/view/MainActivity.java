@@ -1,20 +1,24 @@
-package com.fenght.wanandroid.view;
+package com.fenght.wanandroid.mvp.view;
 
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.fenght.wanandroid.R;
 import com.fenght.wanandroid.adapter.ViewPagerAdapter;
 import com.fenght.wanandroid.base.BaseActivity;
+import com.fenght.wanandroid.base.BaseOnClickListener;
 import com.fenght.wanandroid.contract.MainContract;
 import com.fenght.wanandroid.fragment.HomeArticleFragment;
 import com.fenght.wanandroid.fragment.NavigationFragment;
 import com.fenght.wanandroid.fragment.SecondFragment;
 import com.fenght.wanandroid.fragment.SystemFragment;
 import com.fenght.wanandroid.inject.InjectPresenter;
-import com.fenght.wanandroid.presenter.MainPresenter;
+import com.fenght.wanandroid.mvp.presenter.MainPresenter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -26,12 +30,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-
-public class MainActivity extends BaseActivity implements MainContract.IMainView, View.OnClickListener {
+public class MainActivity extends BaseActivity implements MainContract.IMainView{
     @InjectPresenter
     private MainPresenter mainPresenter; //通过注解进行实例化
     private TabLayout mTl_tabLayout;
     private ViewPager mVp_viewPager;
+    private ImageView iv_more;
     private DrawerLayout drawer;
     private NavigationView navigationView;
 
@@ -50,15 +54,15 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
 
         mTl_tabLayout = $(R.id.tl_tabLayout);
         mVp_viewPager = $(R.id.vp_viewPager);
+        iv_more = $(R.id.iv_more);
         drawer = $(R.id.drawer_layout);
         navigationView = $(R.id.nav_view);
+        iv_more.setOnClickListener(this);
 
         titles.add("首页");
         titles.add("体系");
         titles.add("导航");
         titles.add("项目");
-        titles.add("公众号");
-        titles.add("体系");
         titles.add("公众号");
         titles.add("体系");
         fragmentList.add(new HomeArticleFragment());
@@ -79,6 +83,7 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
         mVp_viewPager.setAdapter(adapter);
         mVp_viewPager.setOffscreenPageLimit(3);
         mTl_tabLayout.setupWithViewPager(mVp_viewPager);
+        mTl_tabLayout.setSelectedTabIndicatorHeight(0);
     }
 
     @Override
@@ -100,7 +105,11 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         switch (v.getId()){
+            case R.id.iv_more:
+                drawer.openDrawer(Gravity.LEFT);
+                break;
         }
     }
 
@@ -119,5 +128,11 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
     @Override
     public void error(String s) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        System.exit(0);
+        super.onDestroy();
     }
 }

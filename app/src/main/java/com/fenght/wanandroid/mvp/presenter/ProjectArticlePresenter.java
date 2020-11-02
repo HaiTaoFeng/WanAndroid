@@ -1,10 +1,9 @@
-package com.fenght.wanandroid.presenter;
+package com.fenght.wanandroid.mvp.presenter;
 
 import com.fenght.wanandroid.base.BasePresenter;
 import com.fenght.wanandroid.bean.ProjcetArticleBean;
 import com.fenght.wanandroid.contract.ProjectArticleContract;
-import com.fenght.wanandroid.model.ProjectArticleModel;
-import com.fenght.wanandroid.utils.AssetsUtil;
+import com.fenght.wanandroid.mvp.model.ProjectArticleModel;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;

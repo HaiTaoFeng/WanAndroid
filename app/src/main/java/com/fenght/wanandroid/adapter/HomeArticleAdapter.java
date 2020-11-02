@@ -10,9 +10,7 @@ import android.widget.TextView;
 import com.fenght.wanandroid.R;
 import com.fenght.wanandroid.base.BaseRecyclerAdapter;
 import com.fenght.wanandroid.bean.HomeArticleBean;
-import com.fenght.wanandroid.utils.LogUtil;
-import com.fenght.wanandroid.utils.ToastUtil;
-import com.fenght.wanandroid.view.ArticleDetailActivity;
+import com.fenght.wanandroid.mvp.view.ArticleDetailActivity;
 
 import java.util.List;
 

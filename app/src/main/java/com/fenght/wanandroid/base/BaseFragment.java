@@ -17,8 +17,9 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import me.jessyan.autosize.internal.CustomAdapt;
 
-public abstract class BaseFragment extends Fragment implements IBaseView {
+public abstract class BaseFragment extends Fragment implements IBaseView, CustomAdapt {
     private List<BasePresenter> mInjectPresenters;
     private View view;
     protected abstract @LayoutRes int setLayout();
@@ -98,5 +99,15 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
     @Override
     public void dissDialog() {
         ProgressDialog.cancleDialog();
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return true;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 360;
     }
 }

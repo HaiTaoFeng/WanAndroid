@@ -8,7 +8,7 @@ import com.fenght.wanandroid.base.BaseFragment;
 import com.fenght.wanandroid.bean.NavigationBean;
 import com.fenght.wanandroid.contract.NavigationContract;
 import com.fenght.wanandroid.inject.InjectPresenter;
-import com.fenght.wanandroid.presenter.NavigationPresenter;
+import com.fenght.wanandroid.mvp.presenter.NavigationPresenter;
 import com.fenght.wanandroid.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -17,7 +17,6 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 public class NavigationFragment extends BaseFragment implements NavigationContract.INavigationView {
     @InjectPresenter

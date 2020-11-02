@@ -7,6 +7,7 @@ import android.util.Log;
 import com.fenght.wanandroid.bean.BinnerBean;
 import com.fenght.wanandroid.bean.HomeArticleBean;
 import com.fenght.wanandroid.bean.SystemLableBean;
+import com.fenght.wanandroid.utils.LogUtil;
 import com.fenght.wanandroid.weight.ProgressDialog;
 import com.google.gson.Gson;
 
@@ -31,6 +32,7 @@ public class BasePresenter<V extends IBaseView, M extends BaseModel> implements 
             switch (msg.what){
                 case 0: //接口调用失败
                     String s = (String)msg.obj;
+                    LogUtil.e(s);
                     getView().error(s);
                     break;
                 case 1: //转换文章数据

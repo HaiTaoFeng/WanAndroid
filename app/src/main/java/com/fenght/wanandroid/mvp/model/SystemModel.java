@@ -1,8 +1,7 @@
-package com.fenght.wanandroid.model;
+package com.fenght.wanandroid.mvp.model;
 
 import com.fenght.wanandroid.base.BaseModel;
 import com.fenght.wanandroid.constants.API;
-import com.fenght.wanandroid.contract.HomeArticleContract;
 import com.fenght.wanandroid.contract.SystemContract;
 import com.fenght.wanandroid.utils.LogUtil;
 import com.fenght.wanandroid.utils.OkHttpUtil;

@@ -2,11 +2,11 @@ package com.fenght.wanandroid.base;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.view.WindowManager;
 
-import com.fenght.wanandroid.R;
 import com.fenght.wanandroid.inject.InjectPresenter;
 
 import java.lang.reflect.Field;
@@ -18,13 +18,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import me.jessyan.autosize.AutoSize;
 import me.jessyan.autosize.internal.CancelAdapt;
-import me.jessyan.autosize.internal.CustomAdapt;
 
-public abstract class BaseActivity extends AppCompatActivity implements IBaseView, CancelAdapt {
+public abstract class BaseActivity extends AppCompatActivity implements IBaseView, View.OnClickListener {
 
     //保存使用注解的presenter，用于解绑
     private List<BasePresenter> mInjectPresenters;
     private Dialog dialog;
+    private static long TIME_INTERVAL = 1000; //间隔时间
+    private static long LAST_TIME = 0;
 
     protected abstract void initLayout(@Nullable Bundle savedInstanceState);
 
@@ -39,6 +40,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initLayout(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         //实例化和绑定P层
         mInjectPresenters = new ArrayList<>();
         //获得已经声明的变量，包括私有的
@@ -101,7 +104,18 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
 
     }
 
-//    @Override
+
+
+    @Override
+    public void onClick(View v) {
+        long currentTime = System.currentTimeMillis();
+        if ((currentTime - LAST_TIME) < TIME_INTERVAL) {
+            LAST_TIME = TIME_INTERVAL;
+            return;
+        }
+    }
+
+//        @Override
 //    public boolean isBaseOnWidth() {
 //        return false;
 //    }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.WelcomeActivity">
+    tools:context=".mvp.view.WelcomeActivity">
 
     <com.fenght.wanandroid.weight.launcher.LauncherView
         android:id="@+id/load_view"

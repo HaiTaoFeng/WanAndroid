@@ -1,12 +1,9 @@
 package com.fenght.wanandroid.fragment;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 
@@ -19,7 +16,7 @@ import com.fenght.wanandroid.bean.HomeArticleBean;
 import com.fenght.wanandroid.bean.SystemLableBean;
 import com.fenght.wanandroid.contract.SystemContract;
 import com.fenght.wanandroid.inject.InjectPresenter;
-import com.fenght.wanandroid.presenter.SystemPresenter;
+import com.fenght.wanandroid.mvp.presenter.SystemPresenter;
 import com.fenght.wanandroid.utils.ToastUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

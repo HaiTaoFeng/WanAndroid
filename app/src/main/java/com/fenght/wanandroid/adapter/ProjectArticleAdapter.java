@@ -2,7 +2,6 @@ package com.fenght.wanandroid.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.fenght.wanandroid.R;
 import com.fenght.wanandroid.base.BaseRecyclerAdapter;
 import com.fenght.wanandroid.bean.ProjcetArticleBean;
-import com.fenght.wanandroid.view.ArticleDetailActivity;
+import com.fenght.wanandroid.mvp.view.ArticleDetailActivity;
 
 import java.util.List;
 

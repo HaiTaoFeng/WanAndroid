@@ -1,9 +1,9 @@
-package com.fenght.wanandroid.presenter;
+package com.fenght.wanandroid.mvp.presenter;
 
 import com.fenght.wanandroid.base.BasePresenter;
 import com.fenght.wanandroid.base.IBaseView;
 import com.fenght.wanandroid.contract.MainContract;
-import com.fenght.wanandroid.model.MainModel;
+import com.fenght.wanandroid.mvp.model.MainModel;
 
 /**
  * presenter 层，承担业务逻辑处理，数据源处理等

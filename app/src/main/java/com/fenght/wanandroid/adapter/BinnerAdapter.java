@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.fenght.wanandroid.R;
 import com.fenght.wanandroid.bean.BinnerBean;
-import com.fenght.wanandroid.view.ArticleDetailActivity;
+import com.fenght.wanandroid.mvp.view.ArticleDetailActivity;
 
 import java.util.List;
 

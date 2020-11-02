@@ -1,11 +1,9 @@
-package com.fenght.wanandroid.presenter;
+package com.fenght.wanandroid.mvp.presenter;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 import com.fenght.wanandroid.R;
@@ -13,7 +11,7 @@ import com.fenght.wanandroid.base.BasePresenter;
 import com.fenght.wanandroid.bean.HomeArticleBean;
 import com.fenght.wanandroid.bean.SystemLableBean;
 import com.fenght.wanandroid.contract.SystemContract;
-import com.fenght.wanandroid.model.SystemModel;
+import com.fenght.wanandroid.mvp.model.SystemModel;
 import com.google.gson.Gson;
 
 import java.io.IOException;

@@ -38,17 +38,17 @@ public class LauncherView extends RelativeLayout {
 
     public LauncherView(Context context) {
         super(context);
-        initPath();
+//        initPath();
     }
 
     public LauncherView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initPath();
+//        initPath();
     }
 
     public LauncherView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initPath();
+//        initPath();
     }
 
     ImageView red, purple, yellow, blue;
@@ -90,6 +90,9 @@ public class LauncherView extends RelativeLayout {
     ViewPath redPath1, purplePath1, yellowPath1, bluePath1;
 
     private void initPath() {
+        mWidth = getMeasuredWidth();
+        mHeight = getMeasuredHeight();
+        LogUtil.e("mWidth>>>" + mWidth + ";;;;;;mHeight >>>" + mHeight);
         redPath1 = new ViewPath(); //偏移坐标
         redPath1.moveTo(0, 0);
         redPath1.lineTo(mWidth / 5 - mWidth / 2, 0);
@@ -109,7 +112,7 @@ public class LauncherView extends RelativeLayout {
         bluePath1.moveTo(0, 0);
         bluePath1.lineTo(mWidth / 5 * 4 - mWidth / 2, 0);
         bluePath1.curveTo(700, mHeight / 3 * 2, -mWidth / 2, mHeight / 2, 0, -dp80);
-
+//        start();
     }
 
     @Override
@@ -117,9 +120,8 @@ public class LauncherView extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         mWidth = getMeasuredWidth();
         mHeight = getMeasuredHeight();
-//        initPath();
+        initPath();
     }
-
 
     public void start() {
         LogUtil.e("dp80====" + dp80);

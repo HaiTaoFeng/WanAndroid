@@ -1,4 +1,4 @@
-package com.fenght.wanandroid.model;
+package com.fenght.wanandroid.mvp.model;
 
 import com.fenght.wanandroid.base.BaseModel;
 import com.fenght.wanandroid.constants.API;

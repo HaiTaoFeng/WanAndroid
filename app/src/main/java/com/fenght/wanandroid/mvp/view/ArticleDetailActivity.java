@@ -1,4 +1,4 @@
-package com.fenght.wanandroid.view;
+package com.fenght.wanandroid.mvp.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 

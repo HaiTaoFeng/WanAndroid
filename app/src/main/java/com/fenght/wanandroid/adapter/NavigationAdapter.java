@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.fenght.wanandroid.R;
 import com.fenght.wanandroid.bean.NavigationBean;
-import com.fenght.wanandroid.view.ArticleDetailActivity;
+import com.fenght.wanandroid.mvp.view.ArticleDetailActivity;
 
 import java.util.List;
 

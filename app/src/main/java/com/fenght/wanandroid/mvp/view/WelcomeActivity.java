@@ -1,4 +1,4 @@
-package com.fenght.wanandroid.view;
+package com.fenght.wanandroid.mvp.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,12 +12,14 @@ import me.jessyan.autosize.internal.CancelAdapt;
 
 public class WelcomeActivity extends AppCompatActivity implements CancelAdapt {
 
+    private LauncherView launcherView;
+    private boolean flag = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        final LauncherView launcherView = findViewById(R.id.load_view);
-        launcherView.start();
+        launcherView = findViewById(R.id.load_view);
 
         launcherView.setAnimListener(new LauncherView.AnimListener() {
             @Override
@@ -26,9 +28,24 @@ public class WelcomeActivity extends AppCompatActivity implements CancelAdapt {
                     @Override
                     public void run() {
                         startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
+//                        finish();
                     }
                 },1000);
             }
         });
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && flag) {
+            flag = false;
+            launcherView.start();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

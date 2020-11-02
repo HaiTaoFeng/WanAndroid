@@ -1,15 +1,13 @@
-package com.fenght.wanandroid.presenter;
+package com.fenght.wanandroid.mvp.presenter;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.os.Handler;
-import android.os.Message;
 
 import com.fenght.wanandroid.base.BasePresenter;
 import com.fenght.wanandroid.bean.BinnerBean;
 import com.fenght.wanandroid.bean.HomeArticleBean;
 import com.fenght.wanandroid.contract.HomeArticleContract;
-import com.fenght.wanandroid.model.HomeArticleModel;
+import com.fenght.wanandroid.mvp.model.HomeArticleModel;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -17,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;

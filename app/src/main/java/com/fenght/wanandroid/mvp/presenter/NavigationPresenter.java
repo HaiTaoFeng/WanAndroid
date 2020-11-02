@@ -1,9 +1,9 @@
-package com.fenght.wanandroid.presenter;
+package com.fenght.wanandroid.mvp.presenter;
 
 import com.fenght.wanandroid.base.BasePresenter;
 import com.fenght.wanandroid.bean.NavigationBean;
 import com.fenght.wanandroid.contract.NavigationContract;
-import com.fenght.wanandroid.model.NavigationModel;
+import com.fenght.wanandroid.mvp.model.NavigationModel;
 import com.google.gson.Gson;
 
 import java.io.IOException;
