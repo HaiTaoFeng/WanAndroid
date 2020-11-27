@@ -23,6 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -72,8 +73,8 @@ public class ProjectArticleFragment extends BaseFragment implements ProjectArtic
                     sIsScrolling = true;
                     Glide.with(getActivity()).pauseRequests();
                 } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (sIsScrolling == true) {
-                        Glide.with(getActivity()).resumeRequests();
+                    if (sIsScrolling) {
+                        Glide.with(Objects.requireNonNull(getActivity())).resumeRequests();
                     }
                     sIsScrolling = false;
                 }

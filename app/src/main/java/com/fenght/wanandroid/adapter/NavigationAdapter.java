@@ -28,6 +28,11 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.list = list;
     }
 
+    public void refresh(List<NavigationBean.DataBean.ArticlesBean> list){
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);

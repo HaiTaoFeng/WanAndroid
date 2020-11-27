@@ -79,11 +79,12 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
         if (titles.size() <= 6) {
             mTl_tabLayout.setTabMode(TabLayout.MODE_FIXED);
         }
+        //初始化Viewpager
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList,titles);
         mVp_viewPager.setAdapter(adapter);
-        mVp_viewPager.setOffscreenPageLimit(3);
+        mVp_viewPager.setOffscreenPageLimit(3); //设置加载左右3个页面
         mTl_tabLayout.setupWithViewPager(mVp_viewPager);
-        mTl_tabLayout.setSelectedTabIndicatorHeight(0);
+        mTl_tabLayout.setSelectedTabIndicatorHeight(0); //隐藏tablayout选中时的下划线
     }
 
     @Override

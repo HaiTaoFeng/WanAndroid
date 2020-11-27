@@ -57,9 +57,8 @@ public class ProjectArticleAdapter extends BaseRecyclerAdapter<ProjcetArticleBea
 
     @Override
     public RecyclerView.ViewHolder onCreate(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(context).inflate(R.layout.adapter_project_article,parent,false);
-        ViewHolder viewHolder = null;
-        viewHolder = new ViewHolder(view);
+        final View view = LayoutInflater.from(context).inflate(R.layout.adapter_project_article_new,parent,false);
+        ViewHolder viewHolder = new ViewHolder(view);
         drawable = context.getDrawable(R.drawable.ic_love);
         DrawableCompat.setTint(drawable,context.getResources().getColor(R.color.red));
         return viewHolder;
@@ -75,7 +74,7 @@ public class ProjectArticleAdapter extends BaseRecyclerAdapter<ProjcetArticleBea
             }else{
                 holder.tv_author.setText(list.get(position).getAuthor());
             }
-            holder.tv_desc.setText(list.get(position).getDesc());
+            holder.tv_desc.setText(list.get(position).getDesc().trim());
             holder.tv_time.setText(list.get(position).getNiceDate());
             String picture_path = list.get(position).getEnvelopePic();
             if (!"".equals(picture_path)) {

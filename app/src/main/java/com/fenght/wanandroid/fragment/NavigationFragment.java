@@ -51,6 +51,22 @@ public class NavigationFragment extends BaseFragment implements NavigationContra
         if (t instanceof NavigationBean) {
             NavigationBean bean = (NavigationBean)t;
             articlesBeanList = navigationPresenter.dealData(bean.getData());
+            //展示列表数据
+            setAdapter();
+        }
+    }
+
+    @Override
+    public void error(String s) {
+        ToastUtil.toastShort(s);
+    }
+
+    /**
+     * 展示列表数据
+     */
+    private void setAdapter(){
+        //判断是否为空
+        if (adapter == null) {
             adapter = new NavigationAdapter(getContext(),articlesBeanList);
             //瀑布流布局:4行、水平分布
             gridLayoutManager = new GridLayoutManager(getContext(),3);
@@ -63,11 +79,9 @@ public class NavigationFragment extends BaseFragment implements NavigationContra
             });
             rv_recyclerView.setLayoutManager(gridLayoutManager);
             rv_recyclerView.setAdapter(adapter);
+        }else{
+            adapter.refresh(articlesBeanList);
         }
-    }
 
-    @Override
-    public void error(String s) {
-        ToastUtil.toastShort(s);
     }
 }

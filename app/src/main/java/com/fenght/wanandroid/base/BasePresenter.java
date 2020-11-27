@@ -94,10 +94,7 @@ public class BasePresenter<V extends IBaseView, M extends BaseModel> implements 
      * @param <T>
      */
     public <T> void pushData (T obj, int what){
-        Message msg = new Message();
-        msg.obj = obj;
-        msg.what = what;
-        handler.sendMessage(msg);
+        handler.obtainMessage(what,obj);
     }
 
     @Override
