@@ -74,7 +74,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     @Override
     protected void onResume() {
         super.onResume();
-        AutoSize.autoConvertDensity(this, 1080, true);
+//        AutoSize.autoConvertDensity(this, 1080, true);
     }
 
     @Override

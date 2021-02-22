@@ -1,11 +1,14 @@
 package com.fenght.wanandroid.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.fenght.wanandroid.R;
 import com.fenght.wanandroid.adapter.HomeArticleAdapter;
@@ -18,6 +21,7 @@ import com.fenght.wanandroid.contract.SystemContract;
 import com.fenght.wanandroid.inject.InjectPresenter;
 import com.fenght.wanandroid.mvp.presenter.SystemPresenter;
 import com.fenght.wanandroid.utils.ToastUtil;
+import com.fenght.wanandroid.weight.FlowLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -41,6 +45,8 @@ public class SystemFragment extends BaseFragment implements SystemContract.ISyst
     private AppCompatTextView tv_search;
     private FloatingActionButton fab;
     private RecyclerView rv_title_one,rv_title_two,rv_article;
+    private FlowLayout fl_flowLayout;
+//    private com.google.android.material.internal.FlowLayout fl_flowLayout;
     private PopupWindow window;
     private StaggeredGridLayoutManager staggeredGridLayoutManager,staggeredGridLayoutManager2;
     private SystemTitleAdapter adapter;
@@ -48,6 +54,14 @@ public class SystemFragment extends BaseFragment implements SystemContract.ISyst
     private HomeArticleAdapter articleAdapter;
 
     private int page = 0; //页数
+
+    private String mNames[] = {
+            "welcome","android","TextView",
+            "apple","jamy","kobe bryant",
+            "jordan","layout","viewgroup",
+            "margin","padding","text",
+            "name","type","search","logcat"
+    };
 
 
     @Override
@@ -61,6 +75,7 @@ public class SystemFragment extends BaseFragment implements SystemContract.ISyst
         tv_search = $(R.id.tv_search); //搜索
         fab = $(R.id.fab); //标签分类
         rv_article = $(R.id.rv_article); //标签下的文章列表
+        fl_flowLayout = $(R.id.fl_flowLayout); //历史查询记录（流式布局）
         //设置线性布局
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -92,6 +107,25 @@ public class SystemFragment extends BaseFragment implements SystemContract.ISyst
                 systemPresenter.getArticleByAuthor(page,author);
             }
         });
+
+        initChildViews();
+    }
+
+    private void initChildViews() {
+        // TODO Auto-generated method stub
+        ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.leftMargin = 15;
+        lp.rightMargin = 15;
+        lp.topMargin = 10;
+        lp.bottomMargin = 10;
+        for(int i = 0; i < mNames.length; i ++){
+            TextView view = new TextView(getContext());
+            view.setText(mNames[i]);
+            view.setTextColor(Color.BLACK);
+            view.setBackgroundResource(R.drawable.shape_corner);
+            fl_flowLayout.addView(view,lp);
+        }
     }
 
     @Override

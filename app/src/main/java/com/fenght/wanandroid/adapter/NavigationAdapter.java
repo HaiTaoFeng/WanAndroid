@@ -74,10 +74,12 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        //标题布局
         if (holder instanceof TitleHolder) {
             TitleHolder titleHolder = (TitleHolder) holder;
             titleHolder.tv_title.setText(list.get(position).getChapterName());
         }
+        //标签布局
         if (holder instanceof LableHolder) {
             LableHolder lableHolder = (LableHolder) holder;
             lableHolder.tv_lable.setText(list.get(position).getTitle());
