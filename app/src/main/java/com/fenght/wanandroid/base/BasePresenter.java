@@ -4,14 +4,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.fenght.wanandroid.bean.BinnerBean;
-import com.fenght.wanandroid.bean.HomeArticleBean;
-import com.fenght.wanandroid.bean.SystemLableBean;
 import com.fenght.wanandroid.utils.LogUtil;
 import com.fenght.wanandroid.weight.ProgressDialog;
-import com.google.gson.Gson;
 
 import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -22,6 +19,7 @@ import androidx.annotation.NonNull;
 
 public class BasePresenter<V extends IBaseView, M extends BaseModel> implements IBasePresenter{
     private SoftReference<IBaseView> mReferenceView;
+    private Message msg;
     private V mProxyView;
     private M mModel;
 
@@ -83,7 +81,7 @@ public class BasePresenter<V extends IBaseView, M extends BaseModel> implements 
         ProgressDialog.showDialog(getView().getContext());
     }
 
-    public void dissDialog() {
+    public static void dissDialog() {
         ProgressDialog.cancleDialog();
     }
 
@@ -94,7 +92,8 @@ public class BasePresenter<V extends IBaseView, M extends BaseModel> implements 
      * @param <T>
      */
     public <T> void pushData (T obj, int what){
-        handler.obtainMessage(what,obj);
+        msg = handler.obtainMessage(what,obj);
+        handler.sendMessage(msg);
     }
 
     @Override
@@ -102,8 +101,10 @@ public class BasePresenter<V extends IBaseView, M extends BaseModel> implements 
         mReferenceView.clear();
         mReferenceView = null;
         if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
             handler = null;
         }
     }
+
 
 }
