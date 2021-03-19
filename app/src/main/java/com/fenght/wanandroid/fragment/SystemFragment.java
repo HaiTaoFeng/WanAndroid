@@ -2,6 +2,7 @@ package com.fenght.wanandroid.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.fenght.wanandroid.inject.InjectPresenter;
 import com.fenght.wanandroid.mvp.presenter.SystemPresenter;
 import com.fenght.wanandroid.utils.ToastUtil;
 import com.fenght.wanandroid.weight.FlowLayout;
+import com.fenght.wanandroid.weight.MyOnClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -80,6 +82,7 @@ public class SystemFragment extends BaseFragment implements SystemContract.ISyst
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         rv_article.setLayoutManager(linearLayoutManager);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +93,7 @@ public class SystemFragment extends BaseFragment implements SystemContract.ISyst
 //                window.showAsDropDown(fab, 0, 0);
                 // 第一个参数是PopupWindow的父View，第二个参数是PopupWindow相对父View的位置，
                 // 第三和第四个参数分别是PopupWindow相对父View的x、y偏移
-                window.showAtLocation(fab,Gravity.BOTTOM, 0, 0);
+                window.showAtLocation(fab, Gravity.BOTTOM, 0, 0);
                 //设置半透明背景
                 setBackgroundAlpha(0.5f);
             }

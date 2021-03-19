@@ -17,9 +17,9 @@ import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import me.jessyan.autosize.AutoSize;
-import me.jessyan.autosize.internal.CancelAdapt;
+import me.jessyan.autosize.internal.CustomAdapt;
 
-public abstract class BaseActivity extends AppCompatActivity implements IBaseView, View.OnClickListener {
+public abstract class BaseActivity extends AppCompatActivity implements IBaseView, View.OnClickListener, CustomAdapt {
 
     //保存使用注解的presenter，用于解绑
     private List<BasePresenter> mInjectPresenters;
@@ -74,7 +74,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     @Override
     protected void onResume() {
         super.onResume();
-//        AutoSize.autoConvertDensity(this, 1080, true);
+        AutoSize.autoConvertDensity(this, 1080, true);
     }
 
     @Override
@@ -115,13 +115,13 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         }
     }
 
-//        @Override
-//    public boolean isBaseOnWidth() {
-//        return false;
-//    }
-//
-//    @Override
-//    public float getSizeInDp() {
-//        return 0;
-//    }
+        @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 0;
+    }
 }
