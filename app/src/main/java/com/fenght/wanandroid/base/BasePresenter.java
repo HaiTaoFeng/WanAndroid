@@ -1,5 +1,6 @@
 package com.fenght.wanandroid.base;
 
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -16,30 +17,14 @@ import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 public class BasePresenter<V extends IBaseView, M extends BaseModel> implements IBasePresenter{
     private SoftReference<IBaseView> mReferenceView;
     private Message msg;
     private V mProxyView;
     private M mModel;
-
-    private Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(@NonNull Message msg) {
-            dissDialog();
-            switch (msg.what){
-                case 0: //接口调用失败
-                    String s = (String)msg.obj;
-                    LogUtil.e(s);
-                    getView().error(s);
-                    break;
-                case 1: //转换文章数据
-                    getView().succeed(msg.obj);
-                    break;
-            }
-            return false;
-        }
-    });
+    private BaseHandler handler;
 
     public V getView(){
         return mProxyView;
@@ -49,6 +34,7 @@ public class BasePresenter<V extends IBaseView, M extends BaseModel> implements 
         return mModel;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void attach(IBaseView view) {
         //使用软引用创建对象
@@ -75,6 +61,8 @@ public class BasePresenter<V extends IBaseView, M extends BaseModel> implements 
                 e.printStackTrace();
             }
         }
+        //初始化Handler
+        handler = new BaseHandler(mProxyView);
     }
 
     public void showDialog() {
@@ -103,6 +91,32 @@ public class BasePresenter<V extends IBaseView, M extends BaseModel> implements 
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
             handler = null;
+        }
+    }
+
+
+    static class BaseHandler<V extends IBaseView> extends Handler{
+        private final WeakReference<V> weakReference;
+
+        BaseHandler(V v) {
+            this.weakReference = new WeakReference<>((V) v);
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            IBaseView iBaseView = weakReference.get();
+            dissDialog();
+            switch (msg.what){
+                case 0: //接口调用失败
+                    String s = (String)msg.obj;
+                    LogUtil.e(s);
+                    iBaseView.error(s);
+                    break;
+                case 1: //转换文章数据
+                    iBaseView.succeed(msg.obj);
+                    break;
+            }
+            super.handleMessage(msg);
         }
     }
 
