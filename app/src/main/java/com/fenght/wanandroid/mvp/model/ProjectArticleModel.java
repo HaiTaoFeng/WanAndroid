@@ -18,8 +18,6 @@ public class ProjectArticleModel extends BaseModel implements ProjectArticleCont
     public Call getData(int page, int cid) {
         String url = API.PROJECT_LIST + page + "/json?cid=" + cid;
         LogUtil.e("fht",url);
-        OkHttpClient okHttpClient = OkHttpUtil.okHttpClient;
-        final Request request = OkHttpUtil.getRequst(url);
-        return okHttpClient.newCall(request);
+        return OkHttpUtil.getCall(url);
     }
 }

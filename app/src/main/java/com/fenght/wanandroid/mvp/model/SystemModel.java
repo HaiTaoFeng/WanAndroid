@@ -18,9 +18,7 @@ public class SystemModel extends BaseModel implements SystemContract.ISystemMode
     public Call getLableData() {
         String url = API.SYSTEM_LABEL;
         LogUtil.e("fht",url);
-        OkHttpClient okHttpClient = OkHttpUtil.okHttpClient;
-        final Request request = OkHttpUtil.getRequst(url);
-        return okHttpClient.newCall(request);
+        return OkHttpUtil.getCall(url);
     }
 
     @Override

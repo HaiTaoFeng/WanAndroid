@@ -18,8 +18,6 @@ public class NavigationModel extends BaseModel implements NavigationContract.INa
     public Call getData() {
         String url = API.NAVIGATION_DATA;
         LogUtil.e("fht",url);
-        OkHttpClient okHttpClient = OkHttpUtil.okHttpClient;
-        final Request request = OkHttpUtil.getRequst(url);
-        return okHttpClient.newCall(request);
+        return OkHttpUtil.getCall(url);
     }
 }

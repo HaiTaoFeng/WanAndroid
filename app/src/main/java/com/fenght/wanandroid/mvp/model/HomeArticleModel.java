@@ -18,19 +18,14 @@ public class HomeArticleModel extends BaseModel implements HomeArticleContract.I
     public Call requestData(int page) {
         String url = API.HOME_ARTICLE + page + "/json";
         LogUtil.e("fht",url);
-        OkHttpClient okHttpClient = OkHttpUtil.okHttpClient;
-        final Request request = OkHttpUtil.getRequst(url);
-        return okHttpClient.newCall(request);
+        return OkHttpUtil.getCall(url);
     }
 
 
     @Override
     public Call requestBinnerData() {
         String url = API.HOME_BINNER;
-        LogUtil.e("fht",url);
-        OkHttpClient okHttpClient = OkHttpUtil.okHttpClient;
-        final Request request = OkHttpUtil.getRequst(url);
-        return okHttpClient.newCall(request);
+        return OkHttpUtil.getCall(url);
     }
 
 }

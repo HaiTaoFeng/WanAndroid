@@ -83,7 +83,11 @@ public class ThreadTask {
      */
     public static ThreadTask getInstance() {
         if (instance == null) {
-            instance = new ThreadTask();
+            synchronized (ThreadLocal.class) {
+                if (instance == null) {
+                    instance = new ThreadTask();
+                }
+            }
         }
         return instance;
     }

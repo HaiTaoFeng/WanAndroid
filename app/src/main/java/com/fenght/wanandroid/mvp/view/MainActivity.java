@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity implements MainContract.IMainView
 
     @Override
     protected void initData() {
-        mainPresenter.handleData();
+//        mainPresenter.handleData();
     }
 
 
